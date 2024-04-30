@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Loan Approval</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body data-bs-theme="dark" class="bg-dark-subtle">
+    <nav class="navbar bg-dark " data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="../static/logo.png" alt="Logo" width="36" height="28"
+                    class="d-inline-block align-text-top">
+                    Bank Loan Approval
+            </a>
+            <a href="logout" class="btn btn-danger">Logout</a>
+        </div>
+    </nav>
+    {% if customer.loan_approval == 1 %}
+    <div class="alert alert-success fw-bold my-10" role="alert">
+      Cogratulations, based On the information you provided your request for Loan Has been Approved.<br> Please visit our nearest branches for further proceedings. Thank you.
+    </div>
+    {% elif customer.loan_approval == 0 %}
+    <div class="alert alert-warning my-10" role="alert">
+      Sorry, based on the information you provided we cannot provide you the loan.<br>
+      For any queries feel free to contact us. Thank you.
+    </div>
+    {% endif %}
+
+    <form class="m-5" method="post" action="checkapproval">
+        <h4>Hello {{ user }}</h4>
+        <h5>Your Loan Request Information:</h5>
+
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="gender" class="form-label">Gender</label>
+            {% if customer.gender == "Female" %}
+            <div class="form-check" id="gender">
+                <input class="form-check-input" type="radio" name="genderRadioDefault" id="flexRadioDefault1" value="Male" >
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Male
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="genderRadioDefault" id="flexRadioDefault2" value="Female" checked>
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Female
+                </label>
+              </div>
+              {% else %}
+              <div class="form-check" id="gender">
+                <input class="form-check-input" type="radio" name="genderRadioDefault" id="flexRadioDefault1" value="Male" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Male
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="genderRadioDefault" id="flexRadioDefault2" value="Female">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Female
+                </label>
+              </div>
+              {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="married" class="form-label">Married</label>
+            {% if customer.married == "Yes" %}
+            <div class="form-check" id="married">
+                <input class="form-check-input" type="radio" name="marriedRadioDefault" id="flexRadioDefault1" value="Yes" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Yes
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="marriedRadioDefault" id="flexRadioDefault2" value="No" >
+                <label class="form-check-label" for="flexRadioDefault2">
+                  No
+                </label>
+              </div>
+              {% else %}
+              <div class="form-check" id="married">
+                <input class="form-check-input" type="radio" name="marriedRadioDefault" id="flexRadioDefault1" value="Yes">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Yes
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="marriedRadioDefault" id="flexRadioDefault2" value="No" checked >
+                <label class="form-check-label" for="flexRadioDefault2">
+                  No
+                </label>
+              </div>
+              {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="dependents" class="form-label">Dependents</label>
+            {% if customer.dependents == 1 %}
+            <div class="form-check" id="dependents">
+              <input class="form-check-input" type="radio" name="dependentsRadioDefault" id="flexRadioDefault1" value=0 >
+              <label class="form-check-label" for="flexRadioDefault1">
+                0
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="dependentsRadioDefault" id="flexRadioDefault2" value=1 checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                1
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="dependentsRadioDefault" id="flexRadioDefault2" value=2 >
+              <label class="form-check-label" for="flexRadioDefault2">
+                2
+              </label>
+            </div>
+            {% elif customer.dependents == 2 %}
+            <div class="form-check" id="dependents">
+              <input class="form-check-input" type="radio" name="dependentsRadioDefault" id="flexRadioDefault1" value=0 >
+              <label class="form-check-label" for="flexRadioDefault1">
+                0
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="dependentsRadioDefault" id="flexRadioDefault2" value=1 >
+              <label class="form-check-label" for="flexRadioDefault2">
+                1
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="dependentsRadioDefault" id="flexRadioDefault2" value=2 checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                2
+              </label>
+            </div>
+            {% else%}
+            <div class="form-check" id="dependents">
+                <input class="form-check-input" type="radio" name="dependentsRadioDefault" id="flexRadioDefault1" value=0 checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  0
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="dependentsRadioDefault" id="flexRadioDefault2" value=1>
+                <label class="form-check-label" for="flexRadioDefault2">
+                  1
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="dependentsRadioDefault" id="flexRadioDefault2" value=2 >
+                <label class="form-check-label" for="flexRadioDefault2">
+                  2
+                </label>
+              </div>
+              {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="education" class="form-label">Education</label>
+            {% if customer.education == "graduate" %}
+            <div class="form-check" id="education">
+                <input class="form-check-input" type="radio" name="educationRadioDefault" id="flexRadioDefault1" value="graduate" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Graduate
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="educationRadioDefault" id="flexRadioDefault2" value="notgraduate" >
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Not Graduate
+                </label>
+              </div>
+            {% else %}
+            <div class="form-check" id="education">
+              <input class="form-check-input" type="radio" name="educationRadioDefault" id="flexRadioDefault1" value="graduate" >
+              <label class="form-check-label" for="flexRadioDefault1">
+                Graduate
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="educationRadioDefault" id="flexRadioDefault2" value="notgraduate" checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                Not Graduate
+              </label>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="self_employed" class="form-label">Self Employed</label>
+            {% if customer.self_employed == "Yes" %}
+            <div class="form-check" id="self_employed">
+                <input class="form-check-input" type="radio" name="self_employedRadioDefault" id="flexRadioDefault1" value="Yes" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Yes
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="self_employedRadioDefault" id="flexRadioDefault2" value="No">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  No
+                </label>
+              </div>
+            {% else %}
+            <div class="form-check" id="self_employed">
+              <input class="form-check-input" type="radio" name="self_employedRadioDefault" id="flexRadioDefault1" value="Yes" >
+              <label class="form-check-label" for="flexRadioDefault1">
+                Yes
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="self_employedRadioDefault" id="flexRadioDefault2" value="No" checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                No
+              </label>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label for="applicantincome" class="form-label">Income($)</label>
+          <input type="text" class="form-control" id="applicantincome" name="applicantincome" required value={{customer.applicant_income}} >
+          <div id="emailHelp" class="form-text">We'll never share information with anyone else.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="coapplicantincome" class="form-label">Coapplicant Income($)</label>
+          <input type="text" class="form-control" id="coapplicantincome" name="coapplicantincome" required value={{customer.coapplicant_income}}>
+        </div>
+
+        <div class="mb-3">
+          <label for="loanamount" class="form-label">Loan Amount($)</label>
+          <input type="text" class="form-control" id="loanamount" name="loanamount" required value={{customer.loan_amount}}>
+        </div>
+
+        <div class="mb-3">
+          <label for="loanamountterm" class="form-label">Loan Amount Term(Days)</label>
+          <input type="text" class="form-control" id="loanamountterm" name="loanamountterm" required value={{customer.loan_amount_term}}>
+        </div>
+
+        <div class="mb-3">
+          <label for="credit_history" class="form-label">Credit History</label>
+          {% if customer.credit_history == "Yes" %}
+            <div class="form-check" id="credit_history">
+                <input class="form-check-input" type="radio" name="credit_historyRadioDefault" id="flexRadioDefault1" value="Yes" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Yes
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="credit_historyRadioDefault" id="flexRadioDefault2" value="No">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  No
+                </label>
+              </div>
+            {% else %}
+            <div class="form-check" id="credit_history">
+              <input class="form-check-input" type="radio" name="credit_historyRadioDefault" id="flexRadioDefault1" value="Yes" >
+              <label class="form-check-label" for="flexRadioDefault1">
+                Yes
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="credit_historyRadioDefault" id="flexRadioDefault2" value="No" checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                No
+              </label>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <label for="property_area" class="form-label">Property Area</label>
+            {% if customer.property_area == "Rural" %}
+            <div class="form-check" id="property_area">
+                <input class="form-check-input" type="radio" name="property_areaRadioDefault" id="flexRadioDefault1" value="Rural" checked>
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Rural
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="property_areaRadioDefault" id="flexRadioDefault2" value="Semiurban">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Semiurban
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="property_areaRadioDefault" id="flexRadioDefault2" value="Urban">
+                <label class="form-check-label" for="flexRadioDefault2">
+                  Urban
+                </label>
+              </div>
+            {% elif customer.property_area == "Semiurban" %}
+            <div class="form-check" id="property_area">
+              <input class="form-check-input" type="radio" name="property_areaRadioDefault" id="flexRadioDefault1" value="Rural">
+              <label class="form-check-label" for="flexRadioDefault1">
+                Rural
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="property_areaRadioDefault" id="flexRadioDefault2" value="Semiurban"  checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                Semiurban
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="property_areaRadioDefault" id="flexRadioDefault2" value="Urban">
+              <label class="form-check-label" for="flexRadioDefault2">
+                Urban
+              </label>
+            </div>
+            {% else %}
+            <div class="form-check" id="property_area">
+              <input class="form-check-input" type="radio" name="property_areaRadioDefault" id="flexRadioDefault1" value="Rural">
+              <label class="form-check-label" for="flexRadioDefault1">
+                Rural
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="property_areaRadioDefault" id="flexRadioDefault2" value="Semiurban">
+              <label class="form-check-label" for="flexRadioDefault2">
+                Semiurban
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="property_areaRadioDefault" id="flexRadioDefault2" value="Urban"  checked>
+              <label class="form-check-label" for="flexRadioDefault2">
+                Urban
+              </label>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" required>
+          <label class="form-check-label" for="exampleCheck1">I assure that my information is valid</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+ 
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
+</html>
